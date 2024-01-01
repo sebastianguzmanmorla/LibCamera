@@ -4,6 +4,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>SebastianGuzmanMorla.LibCamera</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Sebastián Guzmán Morla</Authors>
+    <Company>Sebastián Guzmán Morla</Company>
+    <Description>C# Wrapper to Raspberry Pi libcamera</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/sebastianguzmanmorla/LibCamera</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>libcamera, raspberry pi, camera, wrapper</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
+  </ItemGroup>
 
 </Project>
