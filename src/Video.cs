@@ -1,7 +1,7 @@
+using LibCamera.Settings;
+using LibCamera.Settings.Types;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using LibCamera.Settings;
-using LibCamera.Settings.Records;
 
 namespace LibCamera
 {
@@ -38,7 +38,7 @@ namespace LibCamera
 
             try
             {
-                 ListCamerasProcess = Process.Start(ListCamerasStartInfo());
+                ListCamerasProcess = Process.Start(ListCamerasStartInfo());
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace LibCamera
             }
 
             Camera? camera = null;
-            Mode? mode = null;
+            string? modeValue = null;
 
             while (true)
             {
@@ -88,45 +88,39 @@ namespace LibCamera
 
                 bool ModeDefinition = ModeRegex().IsMatch(Line);
 
-                if(ModeDefinition && camera is not null && mode is not null)
+                if (ModeDefinition && camera is not null && modeValue is not null)
                 {
-                    camera.Modes.Add(mode);
-
-                    mode = null;
+                    modeValue = null;
                 }
 
-                if(ModeDefinition && camera is not null && mode is null)
+                if (ModeDefinition && camera is not null && modeValue is null)
                 {
                     Match modeMatch = ModeRegex().Match(Line);
 
-                    mode = new(
-                        Name: modeMatch.Groups[2].Value
-                    );
+                    modeValue = modeMatch.Groups[2].Value;
                 }
 
                 bool ResolutionDefinition = ResolutionRegex().IsMatch(Line);
 
-                if(ResolutionDefinition && camera is not null && mode is not null)
+                if (ResolutionDefinition && camera is not null && modeValue is not null)
                 {
                     Match resolutionMatch = ResolutionRegex().Match(Line);
 
-                    mode.Resolutions.Add(new(
-                        Width: uint.Parse(resolutionMatch.Groups[2].Value),
-                        Height: uint.Parse(resolutionMatch.Groups[3].Value),
-                        Fps: double.Parse(resolutionMatch.Groups[4].Value),
-                        Crop: new(
-                            X: uint.Parse(resolutionMatch.Groups[5].Value),
-                            Y: uint.Parse(resolutionMatch.Groups[6].Value),
-                            Width: uint.Parse(resolutionMatch.Groups[7].Value),
-                            Height: uint.Parse(resolutionMatch.Groups[8].Value)
+                    camera.Modes.Add(
+                        new Mode(
+                            Value: modeValue,
+                            Width: uint.Parse(resolutionMatch.Groups[2].Value),
+                            Height: uint.Parse(resolutionMatch.Groups[3].Value),
+                            Fps: double.Parse(resolutionMatch.Groups[4].Value),
+                            Crop: new(
+                                X: uint.Parse(resolutionMatch.Groups[5].Value),
+                                Y: uint.Parse(resolutionMatch.Groups[6].Value),
+                                Width: uint.Parse(resolutionMatch.Groups[7].Value),
+                                Height: uint.Parse(resolutionMatch.Groups[8].Value)
+                            )
                         )
-                    ));
+                    );
                 }
-            }
-
-            if (camera is not null && mode is not null)
-            {
-                camera.Modes.Add(mode);
             }
 
             if (camera is not null)

@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace LibCamera.Helpers
 {
-    public abstract class Enumeration<TValue> : IComparable where TValue : IComparable, IComparable<TValue>
+    public abstract class Enumeration<TValue> : Stringable, IComparable where TValue : IComparable, IComparable<TValue>
     {
         public TValue Value { get; private set; }
 
@@ -10,7 +10,7 @@ namespace LibCamera.Helpers
 
         protected Enumeration(TValue value, string? description = null) => (Value, Description) = (value, description);
 
-        public override string? ToString() =>  Value?.ToString();
+        public override string? ToString() => Value?.ToString();
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration<TValue>
         {
@@ -41,37 +41,7 @@ namespace LibCamera.Helpers
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
-        }
-
-        public static bool operator ==(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return left is null ? right is null : left.Equals(right);
-        }
-
-        public static bool operator !=(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return !(left == right);
-        }
-
-        public static bool operator <(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return left is null ? right is not null : left.CompareTo(right) < 0;
-        }
-
-        public static bool operator <=(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return left is null || left.CompareTo(right) <= 0;
-        }
-
-        public static bool operator >(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return left is not null && left.CompareTo(right) > 0;
-        }
-
-        public static bool operator >=(Enumeration<TValue> left, Enumeration<TValue> right)
-        {
-            return left is null ? right is null : left.CompareTo(right) >= 0;
+            return Value.GetHashCode();
         }
     }
 }

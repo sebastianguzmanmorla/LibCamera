@@ -1,5 +1,4 @@
 using System.Reflection;
-using LibCamera.Settings.Records;
 
 namespace LibCamera.Helpers
 {
@@ -45,27 +44,9 @@ namespace LibCamera.Helpers
                     continue;
                 }
 
-                if (value is Crop f)
+                if (value is Stringable f)
                 {
                     args += $" {argument.Argument} {f}";
-                    continue;
-                }
-
-                if (value is WhiteBalanceGains g)
-                {
-                    args += $" {argument.Argument} {g}";
-                    continue;
-                }
-
-                if (value is Enumeration<uint> h)
-                {
-                    args += $" {argument.Argument} {h}";
-                    continue;
-                }
-
-                if (value is Enumeration<string> i)
-                {
-                    args += $" {argument.Argument} {i}";
                     continue;
                 }
             }

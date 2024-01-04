@@ -1,7 +1,7 @@
 using LibCamera.Helpers;
 using LibCamera.Settings.Codecs;
 using LibCamera.Settings.Enumerations;
-using LibCamera.Settings.Records;
+using LibCamera.Settings.Types;
 
 namespace LibCamera.Settings
 {
@@ -55,7 +55,7 @@ namespace LibCamera.Settings
             string? Output = null
         ) => new Mjpeg()
         {
-           Camera = Camera,
+            Camera = Camera,
             Width = Width,
             Height = Height,
             Timeout = Timeout,
@@ -114,6 +114,18 @@ namespace LibCamera.Settings
         public uint? Timeout { get; set; } = null;
 
         /// <summary>
+        /// Output filename or '-' for stdout
+        /// </summary>
+        [Argument("--output")]
+        public string? Output { get; set; } = null;
+
+        /// <summary>
+        /// Set the file name for configuring the post-processing
+        /// </summary>
+        [Argument("--post-process-file")]
+        public string? PostProcessFile { get; set; } = null;
+
+        /// <summary>
         /// Force use of full resolution raw frames
         /// </summary>
         [Argument("--rawfull")]
@@ -130,6 +142,18 @@ namespace LibCamera.Settings
         /// </summary>
         [Argument("--vflip")]
         public bool? VFlip { get; set; } = null;
+
+        /// <summary>
+        /// Request an image rotation, 0 or 180
+        /// </summary>
+        [Argument("--rotation")]
+        public int? Rotation { get; set; } = null;
+
+        /// <summary>
+        /// Set region of interest (digital zoom)
+        /// </summary>
+        [Argument("--roi")]
+        public RegionOfInterest? RegionOfInterest { get; set; } = null;
 
         /// <summary>
         /// Set a fixed shutter speed in microseconds
@@ -172,6 +196,18 @@ namespace LibCamera.Settings
         /// </summary>
         [Argument("--awbgains")]
         public WhiteBalanceGains? WhiteBalanceGains { get; set; } = null;
+
+        /// <summary>
+        /// Flush output data as soon as possible
+        /// </summary>
+        [Argument("--flush")]
+        public bool? Flush { get; set; } = null;
+
+        /// <summary>
+        /// When writing multiple output files, reset the counter when it reaches this number
+        /// </summary>
+        [Argument("--wrap")]
+        public uint? Wrap { get; set; } = null;
 
         /// <summary>
         /// Adjust the brightness of the output images, in the range -1.0 to 1.0
@@ -230,6 +266,60 @@ namespace LibCamera.Settings
         public Denoise? Denoise { get; set; } = null;
 
         /// <summary>
+        /// Width of viewfinder frames from the camera (distinct from the preview window size
+        /// </summary>
+        [Argument("--viewfinder-width")]
+        public uint? ViewfinderWidth { get; set; } = null;
+
+        /// <summary>
+        /// Height of viewfinder frames from the camera (distinct from the preview window size)
+        /// </summary>
+        [Argument("--viewfinder-height")]
+        public uint? ViewfinderHeight { get; set; } = null;
+
+        /// <summary>
+        /// Name of camera tuning file to use, omit this option for libcamera default behaviour
+        /// </summary>
+        [Argument("--tuning-file")]
+        public string? TuningFile { get; set; } = null;
+
+        /// <summary>
+        /// Width of low resolution frames (use 0 to omit low resolution stream)
+        /// </summary>
+        [Argument("--lores-width")]
+        public uint? LowResolutionWidth { get; set; } = null;
+
+        /// <summary>
+        /// Height of low resolution frames (use 0 to omit low resolution stream)
+        /// </summary>
+        [Argument("--lores-height")]
+        public uint? LowResolutionHeight { get; set; } = null;
+
+        /// <summary>
+        /// Camera mode as W:H:bit-depth:packing, where packing is P (packed) or U (unpacked)
+        /// </summary>
+        [Argument("--mode")]
+        public Mode? Mode { get; set; } = null;
+
+        /// <summary>
+        /// Camera mode for preview as W:H:bit-depth:packing, where packing is P (packed) or U (unpacked)
+        /// </summary>
+        [Argument("---viewfinder-mode")]
+        public Mode? ViewFinderMode { get; set; } = null;
+
+        /// <summary>
+        /// Number of in-flight requests (and buffers) configured for video, raw, and still.
+        /// </summary>
+        [Argument("--buffer-count")]
+        public uint? BufferCount { get; set; } = null;
+
+        /// <summary>
+        /// Number of in-flight requests (and buffers) configured for preview window.
+        /// </summary>
+        [Argument("--viewfinder-buffer-count")]
+        public uint? ViewFinderBufferCount { get; set; } = null;
+
+        /// <summary>
         /// Control to set the mode of the AF (autofocus) algorithm
         /// </summary>
         [Argument("--autofocus-mode")]
@@ -248,10 +338,10 @@ namespace LibCamera.Settings
         public AutofocusSpeed? AutofocusSpeed { get; set; } = null;
 
         /// <summary>
-        /// Sets AfMetering to  AfMeteringWindows an set region used
+        /// Sets AfMetering to  AfMeteringWindows an set region used, e.g. 0.25,0.25,0.5,0.5
         /// </summary>
         [Argument("--autofocus-window")]
-        public Crop? AutofocusWindow { get; set; } = null;
+        public RegionOfInterest? AutofocusWindow { get; set; } = null;
 
         /// <summary>
         /// Set the lens to a particular focus position, expressed as a reciprocal distance (0 moves the lens to infinity)
@@ -266,9 +356,69 @@ namespace LibCamera.Settings
         public bool? Hdr { get; set; } = null;
 
         /// <summary>
-        /// Output filename or '-' for stdout
+        /// Save captured image metadata to a file or "-" for stdout
         /// </summary>
-        [Argument("--output")]
-        public string? Output { get; set; } = null;
+        [Argument("--metadata")]
+        public string? Metadata { get; set; } = null;
+
+        /// <summary>
+        /// Format to save the metadata in, either txt or json (requires --metadata)
+        /// </summary>
+        [Argument("--metadata-format")]
+        public MetadataFormat? MetadataFormat { get; set; } = null;
+
+        /// <summary>
+        /// Save a timestamp file with this name
+        /// </summary>
+        [Argument("--save-pts")]
+        public string? SavePts { get; set; } = null;
+
+        /// <summary>
+        /// Listen for an incoming client network connection before sending data to the client
+        /// </summary>
+        [Argument("--listen")]
+        public bool? Listen { get; set; } = null;
+
+        /// <summary>
+        /// Pause or resume video recording when ENTER pressed
+        /// </summary>
+        [Argument("--keypress")]
+        public bool? Keypress { get; set; } = null;
+
+        /// <summary>
+        /// Pause or resume video recording when signal received
+        /// </summary>
+        [Argument("--signal")]
+        public bool? Signal { get; set; } = null;
+
+        /// <summary>
+        /// Use 'pause' to pause the recording at startup, otherwise 'record'
+        /// </summary>
+        [Argument("--initial")]
+        public string? Initial { get; set; } = null;
+
+        /// <summary>
+        /// Create a new output file every time recording is paused and then resumed
+        /// </summary>
+        [Argument("--split")]
+        public bool? Split { get; set; } = null;
+
+        /// <summary>
+        /// Break the recording into files of approximately this many milliseconds
+        /// </summary>
+        [Argument("--segment")]
+        public uint? Segment { get; set; } = null;
+
+        /// <summary>
+        /// Write output to a circular buffer of the given size (in MB) which is saved on exit
+        /// </summary>
+        [Argument("--circular")]
+        public uint? Circular { get; set; } = null;
+
+        /// <summary>
+        /// Run for the exact number of frames specified. This will override any timeout set
+        /// </summary>
+        [Argument("--frames")]
+        public uint? Frames { get; set; } = null;
     }
 }
