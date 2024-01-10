@@ -10,7 +10,7 @@ using System.Diagnostics;
 using LibCamera.Settings;
 using LibCamera.Settings.Enumerations;
 using LibCamera.Settings.Codecs;
-using LibCamera.Settings.Records;
+using LibCamera.Settings.Types;
 using Newtonsoft.Json;
 
 List<Camera>? Cameras = await LibCamera.Video.ListCameras();
