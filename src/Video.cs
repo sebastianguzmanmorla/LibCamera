@@ -11,13 +11,13 @@ namespace LibCamera
 
         public const string ListCamerasCommand = "--list-cameras";
 
-        [GeneratedRegex(@"(.+) : (.+) \[(.+)x(.+)\] \((.+)\)", RegexOptions.IgnoreCase)]
+        [GeneratedRegex(@"(\d+) : (.+) \[(\d+)x(\d+)(.*)\] \((.+)\)", RegexOptions.IgnoreCase)]
         private static partial Regex CameraRegex();
 
-        [GeneratedRegex(@"(.*)Modes: '(.+)' : (.+)", RegexOptions.IgnoreCase)]
+        [GeneratedRegex(@"'(.+)' : (.+)", RegexOptions.IgnoreCase)]
         private static partial Regex ModeRegex();
 
-        [GeneratedRegex(@"(.*) (.+)x(.+) \[(.+) fps - \((.+), (.+)\)\/(.+)x(.+) crop\]", RegexOptions.IgnoreCase)]
+        [GeneratedRegex(@"(\d+)x(\d+) \[(.+) fps - \((\d+), (\d+)\)\/(\d+)x(\d+) crop\]", RegexOptions.IgnoreCase)]
         private static partial Regex ResolutionRegex();
 
         public static ProcessStartInfo ListCamerasStartInfo() => new()
@@ -80,7 +80,7 @@ namespace LibCamera
                         Name: cameraMatch.Groups[2].Value,
                         Width: uint.Parse(cameraMatch.Groups[3].Value),
                         Height: uint.Parse(cameraMatch.Groups[4].Value),
-                        Path: cameraMatch.Groups[5].Value
+                        Path: cameraMatch.Groups[6].Value
                     );
 
                     continue;
@@ -97,7 +97,7 @@ namespace LibCamera
                 {
                     Match modeMatch = ModeRegex().Match(Line);
 
-                    modeValue = modeMatch.Groups[2].Value;
+                    modeValue = modeMatch.Groups[1].Value;
                 }
 
                 bool ResolutionDefinition = ResolutionRegex().IsMatch(Line);
@@ -109,14 +109,14 @@ namespace LibCamera
                     camera.Modes.Add(
                         new Mode(
                             Value: modeValue,
-                            Width: uint.Parse(resolutionMatch.Groups[2].Value),
-                            Height: uint.Parse(resolutionMatch.Groups[3].Value),
-                            Fps: double.Parse(resolutionMatch.Groups[4].Value),
+                            Width: uint.Parse(resolutionMatch.Groups[1].Value),
+                            Height: uint.Parse(resolutionMatch.Groups[2].Value),
+                            Fps: double.Parse(resolutionMatch.Groups[3].Value),
                             Crop: new(
-                                X: uint.Parse(resolutionMatch.Groups[5].Value),
-                                Y: uint.Parse(resolutionMatch.Groups[6].Value),
-                                Width: uint.Parse(resolutionMatch.Groups[7].Value),
-                                Height: uint.Parse(resolutionMatch.Groups[8].Value)
+                                X: uint.Parse(resolutionMatch.Groups[4].Value),
+                                Y: uint.Parse(resolutionMatch.Groups[5].Value),
+                                Width: uint.Parse(resolutionMatch.Groups[6].Value),
+                                Height: uint.Parse(resolutionMatch.Groups[7].Value)
                             )
                         )
                     );
