@@ -10,6 +10,10 @@ namespace LibCamera.Settings.Types
         uint? Height = null
     ) : Stringable
     {
+        public Crop() : this(null, null, null, null)
+        {
+        }
+
         public uint? X { get; set; } = X;
         public uint? Y { get; set; } = Y;
         public uint? Width { get; set; } = Width;

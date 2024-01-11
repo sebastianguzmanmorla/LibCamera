@@ -10,6 +10,10 @@ namespace LibCamera.Settings.Types
         decimal? Height = null
     ) : Stringable
     {
+        public RegionOfInterest() : this(null, null, null, null)
+        {
+        }
+
         public decimal? X { get; set; } = X;
         public decimal? Y { get; set; } = Y;
         public decimal? Width { get; set; } = Width;

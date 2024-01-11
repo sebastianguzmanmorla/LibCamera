@@ -8,6 +8,10 @@ namespace LibCamera.Settings.Types
         uint? Blue = null
     ) : Stringable
     {
+        public WhiteBalanceGains() : this(null, null)
+        {
+        }
+
         public uint? Red { get; set; } = Red;
         public uint? Blue { get; set; } = Blue;
         public override string ToString() => $"{Red},{Blue}";

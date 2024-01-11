@@ -9,6 +9,10 @@ namespace LibCamera.Settings.Types
         string? Path = null
     )
     {
+        public Camera() : this(null, null, null, null, null)
+        {
+        }
+
         public uint? Id { get; set; } = Id;
         public string? Name { get; set; } = Name;
         public uint? Width { get; set; } = Width;

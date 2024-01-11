@@ -14,6 +14,10 @@ namespace LibCamera.Settings.Types
         Packing? Packed = null
     ) : Stringable
     {
+        public Mode() : this(null, null, null, null, null, null, null)
+        {
+        }
+
         public string? Name { get; set; } = Name;
         public uint? Width { get; set; } = Width;
         public uint? Height { get; set; } = Height;

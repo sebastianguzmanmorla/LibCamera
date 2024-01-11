@@ -8,6 +8,10 @@ namespace LibCamera.Settings.Types
         uint? Height
     ) : Stringable
     {
+        public Size() : this(null, null)
+        {
+        }
+
         public uint? Width { get; set; } = Width;
         public uint? Height { get; set; } = Height;
 

@@ -6,6 +6,10 @@ namespace LibCamera.Settings.Types
         uint? Y = null
     )
     {
+        public Position() : this(null, null)
+        {
+        }
+
         public uint? X { get; set; } = X;
         public uint? Y { get; set; } = Y;
     }

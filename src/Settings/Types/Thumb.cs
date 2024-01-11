@@ -9,6 +9,9 @@ namespace LibCamera.Settings.Types
         uint? Quality = null
     ) : Stringable
     {
+        public Thumb() : this(null, null, null)
+        {
+        }
         public uint? Width { get; set; } = Width;
         public uint? Height { get; set; } = Height;
 
