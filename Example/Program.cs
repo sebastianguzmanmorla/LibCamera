@@ -1,12 +1,13 @@
-﻿using System.Diagnostics;
+﻿using LibCamera;
 using LibCamera.Settings;
-using LibCamera.Settings.Enumerations;
 using LibCamera.Settings.Codecs;
+using LibCamera.Settings.Encodings;
+using LibCamera.Settings.Enumerations;
 using LibCamera.Settings.Types;
 using Newtonsoft.Json;
-using LibCamera.Settings.Encodings;
+using System.Diagnostics;
 
-List<Camera>? Cameras = await LibCamera.Video.ListCameras();
+List<Camera>? Cameras = await Hello.ListCameras();
 
 if (Cameras is null)
 {
@@ -59,15 +60,18 @@ StillSettings stillSettings = new Jpg()
     VFlip = true,
     WhiteBalance = WhiteBalance.Incandescent,
     Mode = Camera.Modes.FirstOrDefault(), // Obtained first mode but you can select any mode
+    Immediate = true, // Capture immediately instead of waiting for a trigger
     Output = "test.jpg"
 };
 
-ProcessStartInfo StillStartInfo = LibCamera.Still.CaptureStartInfo(stillSettings);
+ProcessStartInfo StillStartInfo = Still.CaptureStartInfo(stillSettings);
 
 Process? StillProcess = null;
 
 try
 {
+    Console.WriteLine("Starting process with command: {0} {1}", StillStartInfo.FileName, StillStartInfo.Arguments);
+
     StillProcess = Process.Start(StillStartInfo);
 }
 catch (Exception ex)
@@ -82,7 +86,9 @@ if (StillProcess is null)
 
 Console.WriteLine("Started process with ID {0}", StillProcess.Id);
 
-if (StillProcess.HasExited && StillProcess.ExitCode != 0)
+await StillProcess.WaitForExitAsync();
+
+if (StillProcess.ExitCode != 0)
 {
     Console.Error.WriteLine("Process exited with code {0}", StillProcess.ExitCode);
 
@@ -102,12 +108,14 @@ VideoSettings videoSettings = new H264()
     Output = "test.h264"
 };
 
-ProcessStartInfo CaptureStartInfo = LibCamera.Video.CaptureStartInfo(videoSettings);
+ProcessStartInfo CaptureStartInfo = Video.CaptureStartInfo(videoSettings);
 
 Process? CaptureProcess = null;
 
 try
 {
+    Console.WriteLine("Starting process with command: {0} {1}", CaptureStartInfo.FileName, CaptureStartInfo.Arguments);
+
     CaptureProcess = Process.Start(CaptureStartInfo);
 }
 catch (Exception ex)

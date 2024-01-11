@@ -4,20 +4,20 @@ namespace LibCamera.Settings.Types
 {
     public class Thumb
     (
-        uint Width,
-        uint Height,
-        uint Quality
+        uint? Width = null,
+        uint? Height = null,
+        uint? Quality = null
     ) : Stringable
     {
-        public uint Width { get; set; } = Width;
-        public uint Height { get; set; } = Height;
+        public uint? Width { get; set; } = Width;
+        public uint? Height { get; set; } = Height;
 
         public uint? Quality
         {
             get => _quality;
             set => _quality = value is null ? null : uint.Clamp(value.Value, 0, 100);
         }
-        private uint? _quality = uint.Clamp(Quality, 0, 100);
+        private uint? _quality = Quality is null ? null : uint.Clamp(Quality.Value, 0, 100);
 
         public override string ToString() => $"{Width}:{Height}:{Quality}";
     }

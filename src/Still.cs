@@ -4,24 +4,14 @@ using System.Diagnostics;
 
 namespace LibCamera
 {
-    public class Still : ListCameras
+    public class Still : Hello
     {
-        public override string Executable => "libcamera-still";
-
-        private ProcessStartInfo ProcessStartInfo(StillSettings settings) => new()
-        {
-            FileName = Executable,
-            Arguments = settings.ToString(),
-            RedirectStandardInput = true,
-            RedirectStandardError = true,
-            RedirectStandardOutput = true,
-            UseShellExecute = false
-        };
+        protected override string Executable => "libcamera-still";
 
         private static Still Instance { get; } = new Still();
 
-        public static ProcessStartInfo CaptureStartInfo(StillSettings settings) => Instance.ProcessStartInfo(settings);
+        public static ProcessStartInfo CaptureStartInfo(StillSettings settings) => Instance.StartInfo(settings);
 
-        public static async Task<List<Camera>?> ListCameras() => await Instance.List();
+        public static new async Task<List<Camera>?> ListCameras() => await Instance.List();
     }
 }

@@ -1,14 +1,19 @@
 namespace LibCamera.Settings.Types
 {
-    public record Camera
+    public class Camera
     (
-        uint Id,
-        string Name,
-        uint Width,
-        uint Height,
-        string Path
-    ) : Size(Width, Height)
+        uint? Id = null,
+        string? Name = null,
+        uint? Width = null,
+        uint? Height = null,
+        string? Path = null
+    )
     {
-        public List<Mode> Modes { get; init; } = [];
+        public uint? Id { get; set; } = Id;
+        public string? Name { get; set; } = Name;
+        public uint? Width { get; set; } = Width;
+        public uint? Height { get; set; } = Height;
+        public string? Path { get; set; } = Path;
+        public List<Mode> Modes { get; set; } = [];
     }
 }
