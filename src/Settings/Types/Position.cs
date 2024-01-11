@@ -1,16 +1,22 @@
 namespace LibCamera.Settings.Types
 {
     public class Position
-    (
-        uint? X = null,
-        uint? Y = null
-    )
     {
-        public Position() : this(null, null)
+        public Position()
         {
         }
 
-        public uint? X { get; set; } = X;
-        public uint? Y { get; set; } = Y;
+        public Position
+        (
+            uint? X = null,
+            uint? Y = null
+        )
+        {
+            this.X = X;
+            this.Y = Y;
+        }
+
+        public uint? X { get; set; }
+        public uint? Y { get; set; }
     }
 }

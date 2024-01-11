@@ -2,18 +2,24 @@ using LibCamera.Helpers;
 
 namespace LibCamera.Settings.Types
 {
-    public class Size
-    (
-        uint? Width,
-        uint? Height
-    ) : Stringable
+    public class Size : Stringable
     {
-        public Size() : this(null, null)
+        public Size()
         {
         }
 
-        public uint? Width { get; set; } = Width;
-        public uint? Height { get; set; } = Height;
+        public Size
+        (
+            uint? Width = null,
+            uint? Height = null
+        )
+        {
+            this.Width = Width;
+            this.Height = Height;
+        }
+
+        public uint? Width { get; set; }
+        public uint? Height { get; set; }
 
         public override string ToString() => $"{Width}x{Height}";
     }

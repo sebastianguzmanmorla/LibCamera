@@ -1,23 +1,32 @@
 namespace LibCamera.Settings.Types
 {
     public class Camera
-    (
-        uint? Id = null,
-        string? Name = null,
-        uint? Width = null,
-        uint? Height = null,
-        string? Path = null
-    )
     {
-        public Camera() : this(null, null, null, null, null)
+        public Camera()
         {
         }
 
-        public uint? Id { get; set; } = Id;
-        public string? Name { get; set; } = Name;
-        public uint? Width { get; set; } = Width;
-        public uint? Height { get; set; } = Height;
-        public string? Path { get; set; } = Path;
+        public Camera
+        (
+            uint? Id = null,
+            string? Name = null,
+            uint? Width = null,
+            uint? Height = null,
+            string? Path = null
+        )
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Width = Width;
+            this.Height = Height;
+            this.Path = Path;
+        }
+
+        public uint? Id { get; set; }
+        public string? Name { get; set; }
+        public uint? Width { get; set; }
+        public uint? Height { get; set; }
+        public string? Path { get; set; }
         public List<Mode> Modes { get; set; } = [];
     }
 }
