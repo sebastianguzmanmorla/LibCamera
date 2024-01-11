@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace LibCamera
 {
-    public class Video : ListCameras
+    public class Still : ListCameras
     {
-        public override string Executable => "libcamera-vid";
+        public override string Executable => "libcamera-still";
 
-        private ProcessStartInfo ProcessStartInfo(VideoSettings settings) => new()
+        private ProcessStartInfo ProcessStartInfo(StillSettings settings) => new()
         {
             FileName = Executable,
             Arguments = settings.ToString(),
@@ -18,9 +18,9 @@ namespace LibCamera
             UseShellExecute = false
         };
 
-        private static Video Instance { get; } = new Video();
+        private static Still Instance { get; } = new Still();
 
-        public static ProcessStartInfo CaptureStartInfo(VideoSettings settings) => Instance.ProcessStartInfo(settings);
+        public static ProcessStartInfo CaptureStartInfo(StillSettings settings) => Instance.ProcessStartInfo(settings);
 
         public static async Task<List<Camera>?> ListCameras() => await Instance.List();
     }

@@ -4,6 +4,7 @@ using LibCamera.Settings.Enumerations;
 using LibCamera.Settings.Codecs;
 using LibCamera.Settings.Types;
 using Newtonsoft.Json;
+using LibCamera.Settings.Encodings;
 
 List<Camera>? Cameras = await LibCamera.Video.ListCameras();
 
@@ -48,7 +49,7 @@ if (Camera is null)
     return 1;
 }
 
-VideoSettings Settings = new H264()
+StillSettings stillSettings = new Jpg()
 {
     Camera = Camera.Id,
     Width = 1280,
@@ -57,10 +58,51 @@ VideoSettings Settings = new H264()
     HFlip = true,
     VFlip = true,
     WhiteBalance = WhiteBalance.Incandescent,
+    Mode = Camera.Modes.FirstOrDefault(), // Obtained first mode but you can select any mode
+    Output = "test.jpg"
+};
+
+ProcessStartInfo StillStartInfo = LibCamera.Still.CaptureStartInfo(stillSettings);
+
+Process? StillProcess = null;
+
+try
+{
+    StillProcess = Process.Start(StillStartInfo);
+}
+catch (Exception ex)
+{
+    Console.Error.WriteLine("Failed to start process: {0}", ex.Message);
+}
+
+if (StillProcess is null)
+{
+    return 1;
+}
+
+Console.WriteLine("Started process with ID {0}", StillProcess.Id);
+
+if (StillProcess.HasExited && StillProcess.ExitCode != 0)
+{
+    Console.Error.WriteLine("Process exited with code {0}", StillProcess.ExitCode);
+
+    return 1;
+}
+
+VideoSettings videoSettings = new H264()
+{
+    Camera = Camera.Id,
+    Width = 1280,
+    Height = 720,
+    Timeout = 0,
+    HFlip = true,
+    VFlip = true,
+    WhiteBalance = WhiteBalance.Incandescent,
+    Mode = Camera.Modes.FirstOrDefault(), // Obtained first mode but you can select any mode
     Output = "test.h264"
 };
 
-ProcessStartInfo CaptureStartInfo = LibCamera.Video.CaptureStartInfo(Settings);
+ProcessStartInfo CaptureStartInfo = LibCamera.Video.CaptureStartInfo(videoSettings);
 
 Process? CaptureProcess = null;
 
