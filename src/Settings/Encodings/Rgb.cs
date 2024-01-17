@@ -1,9 +1,18 @@
+using System.Text.Json.Serialization;
+using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Encodings
 {
-    public class Rgb : StillSettings, IEncoding
+    /// <summary>
+    /// Rgb Still Settings.
+    /// </summary>
+    [JsonConverter(typeof(StillSettingsConverter<Rgb>))]
+    public class Rgb : StillSettings
     {
-        public Encoding Encoding => Encoding.Rgb;
+        /// <summary>
+        /// Will use the RGB encoding.
+        /// </summary>
+        public override Encoding Encoding => Encoding.Rgb;
     }
 }

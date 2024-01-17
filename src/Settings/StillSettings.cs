@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Encodings;
 using LibCamera.Settings.Enumerations;
@@ -5,8 +6,15 @@ using LibCamera.Settings.Types;
 
 namespace LibCamera.Settings
 {
+    /// <summary>
+    /// Parameters for libcamera-still
+    /// </summary>
+    [JsonConverter(typeof(StillSettingsConverter<StillSettings>))]
     public class StillSettings : Arguments
     {
+        /// <summary>
+        /// Default settings
+        /// </summary>
         public static StillSettings Default(
             uint Camera = 0,
             uint Width = 1280,
@@ -28,7 +36,10 @@ namespace LibCamera.Settings
             Output = Output
         };
 
-        public static StillSettings Bmp(
+        /// <summary>
+        /// Default settings for BMP encoding
+        /// </summary>
+        public static Bmp Bmp(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
@@ -37,7 +48,7 @@ namespace LibCamera.Settings
             bool VFlip = true,
             bool Immediate = true,
             string? Output = null
-        ) => new Bmp()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -49,7 +60,10 @@ namespace LibCamera.Settings
             Output = Output
         };
 
-        public static StillSettings Jpg(
+        /// <summary>
+        /// Default settings for JPG encoding
+        /// </summary>
+        public static Jpg Jpg(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
@@ -58,7 +72,7 @@ namespace LibCamera.Settings
             bool VFlip = true,
             bool Immediate = true,
             string? Output = null
-        ) => new Jpg()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -70,7 +84,10 @@ namespace LibCamera.Settings
             Output = Output
         };
 
-        public static StillSettings Png(
+        /// <summary>
+        /// Default settings for PNG encoding
+        /// </summary>
+        public static Png Png(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
@@ -79,7 +96,7 @@ namespace LibCamera.Settings
             bool VFlip = true,
             bool Immediate = true,
             string? Output = null
-        ) => new Png()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -91,7 +108,10 @@ namespace LibCamera.Settings
             Output = Output
         };
 
-        public static StillSettings Rgb(
+        /// <summary>
+        /// Default settings for RGB encoding
+        /// </summary>
+        public static Rgb Rgb(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
@@ -100,7 +120,7 @@ namespace LibCamera.Settings
             bool VFlip = true,
             bool Immediate = true,
             string? Output = null
-        ) => new Rgb()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -112,7 +132,10 @@ namespace LibCamera.Settings
             Output = Output
         };
 
-        public static StillSettings Yuv420(
+        /// <summary>
+        /// Default settings for YUV420 encoding
+        /// </summary>
+        public static Yuv420 Yuv420(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
@@ -121,7 +144,7 @@ namespace LibCamera.Settings
             bool VFlip = true,
             bool Immediate = true,
             string? Output = null
-        ) => new Yuv420()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -494,5 +517,11 @@ namespace LibCamera.Settings
         /// </summary>
         [Argument("--autofocus-on-capture")]
         public bool? AutofocusOnCapture { get; set; } = null;
+
+        /// <summary>
+        /// Set the desired output encoding
+        /// </summary>
+        [Argument("--encoding")]
+        public virtual Encoding? Encoding { get; set; } = null;
     }
 }

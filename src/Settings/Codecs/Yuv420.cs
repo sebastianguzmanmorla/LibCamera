@@ -1,9 +1,18 @@
+using System.Text.Json.Serialization;
+using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Codecs
 {
-    public class Yuv420 : VideoSettings, ICodec
+    /// <summary>
+    /// Yuv420 Video Settings.
+    /// </summary>
+    [JsonConverter(typeof(VideoSettingsConverter<Yuv420>))]
+    public class Yuv420 : VideoSettings
     {
-        public Codec Codec => Codec.Yuv420;
+        /// <summary>
+        /// Will use the YUV420 codec.
+        /// </summary>
+        public override Codec Codec => Codec.Yuv420;
     }
 }

@@ -2,12 +2,21 @@ using LibCamera.Helpers;
 
 namespace LibCamera.Settings.Types
 {
+    /// <summary>
+    /// White balance gains
+    /// </summary>
     public class WhiteBalanceGains : Stringable
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public WhiteBalanceGains()
         {
         }
 
+        /// <summary>
+        /// Constructor with parameters
+        /// </summary>
         public WhiteBalanceGains
         (
             uint? Red = null,
@@ -18,8 +27,19 @@ namespace LibCamera.Settings.Types
             this.Blue = Blue;
         }
 
+        /// <summary>
+        /// Red gain
+        /// </summary>
         public uint? Red { get; set; }
+
+        /// <summary>
+        /// Blue gain
+        /// </summary>
         public uint? Blue { get; set; }
+
+        /// <summary>
+        /// Convert to string
+        /// </summary>
         public override string ToString() => $"{Red},{Blue}";
     }
 }

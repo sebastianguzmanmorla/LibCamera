@@ -4,8 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace LibCamera
 {
+    /// <summary>
+    /// libcamera-hello Wrapper
+    /// </summary>
     public partial class Hello : LibCamera
     {
+        /// <summary>
+        /// Binary name
+        /// </summary>
         protected override string Executable => "libcamera-hello";
 
         private const string ListCamerasCommand = "--list-cameras";
@@ -19,6 +25,9 @@ namespace LibCamera
         [GeneratedRegex(@"(\d+)x(\d+) \[(.+) fps - \((\d+), (\d+)\)\/(\d+)x(\d+) crop\]", RegexOptions.IgnoreCase)]
         private static partial Regex ResolutionRegex();
 
+        /// <summary>
+        /// List cameras
+        /// </summary>
         protected async Task<List<Camera>?> List()
         {
             List<Camera> Cameras = [];
@@ -126,6 +135,9 @@ namespace LibCamera
 
         private static Hello Instance { get; } = new Hello();
 
+        /// <summary>
+        /// List cameras
+        /// </summary>
         public static async Task<List<Camera>?> ListCameras() => await Instance.List();
     }
 }

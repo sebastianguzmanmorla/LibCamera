@@ -4,8 +4,13 @@ using LibCamera.Settings.Codecs;
 using LibCamera.Settings.Encodings;
 using LibCamera.Settings.Enumerations;
 using LibCamera.Settings.Types;
-using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text.Json;
+
+JsonSerializerOptions JsonSerializerOptions = new()
+{
+    WriteIndented = true
+};
 
 List<Camera>? Cameras = await Hello.ListCameras();
 
@@ -23,7 +28,7 @@ if (Cameras.Count == 0)
     return 1;
 }
 
-Console.WriteLine(JsonConvert.SerializeObject(Cameras, Formatting.Indented));
+Console.WriteLine("Cameras: {0}", JsonSerializer.Serialize(Cameras, JsonSerializerOptions));
 
 Console.WriteLine("Select camera:");
 
@@ -63,6 +68,8 @@ StillSettings stillSettings = new Jpg()
     Immediate = true, // Capture immediately instead of waiting for a trigger
     Output = "test.jpg"
 };
+
+Console.WriteLine("Start Still using: {0}", JsonSerializer.Serialize(stillSettings, JsonSerializerOptions));
 
 ProcessStartInfo StillStartInfo = Still.CaptureStartInfo(stillSettings);
 
@@ -107,6 +114,8 @@ VideoSettings videoSettings = new H264()
     Mode = Camera.Modes.FirstOrDefault(), // Obtained first mode but you can select any mode
     Output = "test.h264"
 };
+
+Console.WriteLine("Start Video using: {0}", JsonSerializer.Serialize(videoSettings, JsonSerializerOptions));
 
 ProcessStartInfo CaptureStartInfo = Video.CaptureStartInfo(videoSettings);
 

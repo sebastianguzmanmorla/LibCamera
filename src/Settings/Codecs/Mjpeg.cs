@@ -1,11 +1,19 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Codecs
 {
-    public class Mjpeg : VideoSettings, ICodec
+    /// <summary>
+    /// Mjpeg Video Settings.
+    /// </summary>
+    [JsonConverter(typeof(VideoSettingsConverter<Mjpeg>))]
+    public class Mjpeg : VideoSettings
     {
-        public Codec Codec => Codec.Mjpeg;
+        /// <summary>
+        /// Will use the MJPEG codec.
+        /// </summary>
+        public override Codec Codec => Codec.Mjpeg;
 
         /// <summary>
         /// Set the MJPEG quality parameter (mjpeg only)

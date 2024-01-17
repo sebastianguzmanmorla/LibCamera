@@ -1,9 +1,18 @@
+using System.Text.Json.Serialization;
+using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Encodings
 {
-    public class Bmp : StillSettings, IEncoding
+    /// <summary>
+    /// Bmp Still Settings.
+    /// </summary>
+    [JsonConverter(typeof(StillSettingsConverter<Bmp>))]
+    public class Bmp : StillSettings
     {
-        public Encoding Encoding => Encoding.Bmp;
+        /// <summary>
+        /// Will use the BMP encoding.
+        /// </summary>
+        public override Encoding Encoding => Encoding.Bmp;
     }
 }

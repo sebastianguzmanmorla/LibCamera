@@ -2,8 +2,14 @@ using System.Reflection;
 
 namespace LibCamera.Helpers
 {
+    /// <summary>
+    /// Class to automatically generate arguments for start info.
+    /// </summary>
     public abstract class Arguments
     {
+        /// <summary>
+        /// Generate arguments.
+        /// </summary>
         public override string ToString()
         {
             string args = "";

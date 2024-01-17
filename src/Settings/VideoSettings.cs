@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Codecs;
 using LibCamera.Settings.Enumerations;
@@ -5,8 +6,15 @@ using LibCamera.Settings.Types;
 
 namespace LibCamera.Settings
 {
+    /// <summary>
+    /// Parameters for libcamera-vid
+    /// </summary>
+    [JsonConverter(typeof(VideoSettingsConverter<VideoSettings>))]
     public class VideoSettings : Arguments
     {
+        /// <summary>
+        /// Default settings
+        /// </summary>
         public static VideoSettings Default(
             uint Camera = 0,
             uint Width = 1280,
@@ -14,6 +22,7 @@ namespace LibCamera.Settings
             uint Timeout = 0,
             bool HFlip = true,
             bool VFlip = true,
+            uint Framerate = 30,
             string? Output = null
         ) => new()
         {
@@ -23,18 +32,24 @@ namespace LibCamera.Settings
             Timeout = Timeout,
             HFlip = HFlip,
             VFlip = VFlip,
+            Framerate = Framerate,
             Output = Output
         };
 
-        public static VideoSettings H264(
+        /// <summary>
+        /// Default settings for H264 Codec
+        /// </summary>
+        public static H264 H264(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
             uint Timeout = 0,
             bool HFlip = true,
             bool VFlip = true,
+            uint Bitrate = 1000000,
+            uint Framerate = 30,
             string? Output = null
-        ) => new H264()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -42,18 +57,24 @@ namespace LibCamera.Settings
             Timeout = Timeout,
             HFlip = HFlip,
             VFlip = VFlip,
+            Bitrate = Bitrate,
+            Framerate = Framerate,
             Output = Output
         };
 
-        public static VideoSettings Mjpeg(
+        /// <summary>
+        /// Default settings for Mjpeg Codec
+        /// </summary>
+        public static Mjpeg Mjpeg(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
             uint Timeout = 0,
             bool HFlip = true,
             bool VFlip = true,
+            uint Framerate = 30,
             string? Output = null
-        ) => new Mjpeg()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -61,18 +82,23 @@ namespace LibCamera.Settings
             Timeout = Timeout,
             HFlip = HFlip,
             VFlip = VFlip,
+            Framerate = Framerate,
             Output = Output
         };
 
-        public static VideoSettings Yuv420(
+        /// <summary>
+        /// Default settings for Yuv420 Codec
+        /// </summary>
+        public static Yuv420 Yuv420(
             uint Camera = 0,
             uint Width = 1280,
             uint Height = 720,
             uint Timeout = 0,
             bool HFlip = true,
             bool VFlip = true,
+            uint Framerate = 30,
             string? Output = null
-        ) => new Yuv420()
+        ) => new()
         {
             Camera = Camera,
             Width = Width,
@@ -80,6 +106,7 @@ namespace LibCamera.Settings
             Timeout = Timeout,
             HFlip = HFlip,
             VFlip = VFlip,
+            Framerate = Framerate,
             Output = Output
         };
 
@@ -420,5 +447,11 @@ namespace LibCamera.Settings
         /// </summary>
         [Argument("--frames")]
         public uint? Frames { get; set; } = null;
+
+        /// <summary>
+        /// Set the video codec to use
+        /// </summary>
+        [Argument("--codec")]
+        public virtual Codec? Codec { get; set; } = null;
     }
 }

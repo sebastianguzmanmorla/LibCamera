@@ -1,9 +1,18 @@
+using System.Text.Json.Serialization;
+using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Encodings
 {
-    public class Yuv420 : StillSettings, IEncoding
+    /// <summary>
+    /// Yuv420 Still Settings.
+    /// </summary>
+    [JsonConverter(typeof(StillSettingsConverter<Yuv420>))]
+    public class Yuv420 : StillSettings
     {
-        public Encoding Encoding => Encoding.Yuv420;
+        /// <summary>
+        /// Will use the YUV420 encoding.
+        /// </summary>
+        public override Encoding Encoding => Encoding.Yuv420;
     }
 }

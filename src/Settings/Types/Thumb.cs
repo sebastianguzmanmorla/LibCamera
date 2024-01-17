@@ -2,12 +2,21 @@ using LibCamera.Helpers;
 
 namespace LibCamera.Settings.Types
 {
+    /// <summary>
+    /// Thumbnail settings
+    /// </summary>
     public class Thumb : Stringable
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Thumb()
         {
         }
 
+        /// <summary>
+        /// Constructor with parameters
+        /// </summary>
         public Thumb
         (
             uint? Width = null,
@@ -20,9 +29,19 @@ namespace LibCamera.Settings.Types
             this.Quality = Quality;
         }
 
+        /// <summary>
+        /// Width
+        /// </summary>
         public uint? Width { get; set; }
+
+        /// <summary>
+        /// Height
+        /// </summary>
         public uint? Height { get; set; }
 
+        /// <summary>
+        /// Quality (0-100)
+        /// </summary>
         public uint? Quality
         {
             get => _quality;
@@ -30,6 +49,9 @@ namespace LibCamera.Settings.Types
         }
         private uint? _quality;
 
+        /// <summary>
+        /// Convert to string
+        /// </summary>
         public override string ToString() => $"{Width}:{Height}:{Quality}";
     }
 }

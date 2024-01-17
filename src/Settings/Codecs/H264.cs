@@ -1,11 +1,19 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Codecs
 {
-    public class H264 : VideoSettings, ICodec
+    /// <summary>
+    /// H264 Video Settings.
+    /// </summary>
+    [JsonConverter(typeof(VideoSettingsConverter<H264>))]
+    public class H264 : VideoSettings
     {
-        public Codec Codec => Codec.H264;
+        /// <summary>
+        /// Will use the H264 codec.
+        /// </summary>
+        public override Codec Codec => Codec.H264;
 
         /// <summary>
         /// Set the video bitrate for encoding, in bits/second (h264 only)

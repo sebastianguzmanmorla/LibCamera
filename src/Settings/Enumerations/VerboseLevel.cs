@@ -1,7 +1,12 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 
 namespace LibCamera.Settings.Enumerations
 {
+    /// <summary>
+    /// Sets the verbosity level
+    /// </summary>
+    [JsonConverter(typeof(EnumerationConverter<VerboseLevel, uint>))]
     public class VerboseLevel(uint Value, string? Description = null) : Enumeration<uint>(Value, Description)
     {
         /// <summary>

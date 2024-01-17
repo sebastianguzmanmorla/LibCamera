@@ -2,12 +2,21 @@ using LibCamera.Helpers;
 
 namespace LibCamera.Settings.Types
 {
+    /// <summary>
+    /// Region of interest
+    /// </summary>
     public class RegionOfInterest : Stringable
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public RegionOfInterest()
         {
         }
 
+        /// <summary>
+        /// Constructor with parameters
+        /// </summary>
         public RegionOfInterest
         (
             decimal? X = null,
@@ -22,11 +31,29 @@ namespace LibCamera.Settings.Types
             this.Height = Height;
         }
 
+        /// <summary>
+        /// X start coordinate
+        /// </summary>
         public decimal? X { get; set; }
+
+        /// <summary>
+        /// Y start coordinate
+        /// </summary>
         public decimal? Y { get; set; }
+
+        /// <summary>
+        /// Width
+        /// </summary>
         public decimal? Width { get; set; }
+
+        /// <summary>
+        /// Height
+        /// </summary>
         public decimal? Height { get; set; }
 
+        /// <summary>
+        /// Convert to string
+        /// </summary>
         public override string ToString() => $"{X},{Y},{Width},{Height}";
     }
 }

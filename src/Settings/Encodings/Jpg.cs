@@ -1,11 +1,19 @@
+using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
 
 namespace LibCamera.Settings.Encodings
 {
-    public class Jpg : StillSettings, IEncoding
+    /// <summary>
+    /// Jpg Still Settings.
+    /// </summary>
+    [JsonConverter(typeof(StillSettingsConverter<Jpg>))]
+    public class Jpg : StillSettings
     {
-        public Encoding Encoding => Encoding.Jpg;
+        /// <summary>
+        /// Will use the JPEG encoding.
+        /// </summary>
+        public override Encoding Encoding => Encoding.Jpg;
 
         /// <summary>
         /// Set the JPEG quality parameter

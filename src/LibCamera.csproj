@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>SebastianGuzmanMorla.LibCamera</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Sebastián Guzmán Morla</Authors>
     <Company>Sebastián Guzmán Morla</Company>
     <Description>C# Wrapper to Raspberry Pi libcamera</Description>
@@ -16,6 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>libcamera, raspberry pi, camera, wrapper</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
