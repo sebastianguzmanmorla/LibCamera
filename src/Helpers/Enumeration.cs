@@ -1,98 +1,97 @@
 using System.Reflection;
 
-namespace LibCamera.Helpers
+namespace LibCamera.Helpers;
+
+/// <summary>
+/// Custom enumeration.
+/// </summary>
+public abstract class Enumeration<TValue> : Stringable, IComparable where TValue : IComparable, IComparable<TValue>
 {
     /// <summary>
-    /// Custom enumeration.
+    /// The value.
     /// </summary>
-    public abstract class Enumeration<TValue> : Stringable, IComparable where TValue : IComparable, IComparable<TValue>
+    public TValue Value { get; private set; }
+
+    /// <summary>
+    /// The description.
+    /// </summary>
+    public string? Description { get; private set; }
+
+    /// <summary>
+    /// Create a new value for enumeration.
+    /// </summary>
+    protected Enumeration(TValue value, string? description = null) => (Value, Description) = (value, description);
+
+    /// <summary>
+    /// Convert to string.
+    /// </summary>
+    public override string? ToString() => Value?.ToString();
+
+    /// <summary>
+    /// Get all values.
+    /// </summary>
+    public static IEnumerable<TEnumeration> GetAll<TEnumeration>() where TEnumeration : Enumeration<TValue>
     {
-        /// <summary>
-        /// The value.
-        /// </summary>
-        public TValue Value { get; private set; }
+        PropertyInfo[] Values = typeof(TEnumeration)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-        /// <summary>
-        /// The description.
-        /// </summary>
-        public string? Description { get; private set; }
-
-        /// <summary>
-        /// Create a new value for enumeration.
-        /// </summary>
-        protected Enumeration(TValue value, string? description = null) => (Value, Description) = (value, description);
-
-        /// <summary>
-        /// Convert to string.
-        /// </summary>
-        public override string? ToString() => Value?.ToString();
-
-        /// <summary>
-        /// Get all values.
-        /// </summary>
-        public static IEnumerable<TEnumeration> GetAll<TEnumeration>() where TEnumeration : Enumeration<TValue>
+        foreach (PropertyInfo Value in Values)
         {
-            PropertyInfo[] Values = typeof(TEnumeration)
-                .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
-
-            foreach (PropertyInfo Value in Values)
+            if (Value.GetValue(null) is TEnumeration Enumeration)
             {
-                if (Value.GetValue(null) is TEnumeration Enumeration)
-                {
-                    yield return Enumeration;
-                }
+                yield return Enumeration;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Get value from string.
+    /// </summary>
+    public static TEnumeration? Get<TEnumeration>(string value) where TEnumeration : Enumeration<TValue>
+    {
+        PropertyInfo[] Values = typeof(TEnumeration)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+
+        foreach (PropertyInfo Value in Values)
+        {
+            if (Value.GetValue(null) is TEnumeration Enumeration && Enumeration.Value.Equals(value))
+            {
+                return Enumeration;
             }
         }
 
-        /// <summary>
-        /// Get value from string.
-        /// </summary>
-        public static TEnumeration? Get<TEnumeration>(string value) where TEnumeration : Enumeration<TValue>
+        return null;
+    }
+
+    /// <summary>
+    /// Equals
+    /// </summary>
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Enumeration<TValue> otherValue)
         {
-            PropertyInfo[] Values = typeof(TEnumeration)
-                .GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
-
-            foreach (PropertyInfo Value in Values)
-            {
-                if (Value.GetValue(null) is TEnumeration Enumeration && Enumeration.Value.Equals(value))
-                {
-                    return Enumeration;
-                }
-            }
-
-            return null;
+            return false;
         }
 
-        /// <summary>
-        /// Equals
-        /// </summary>
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Enumeration<TValue> otherValue)
-            {
-                return false;
-            }
+        bool typeMatches = GetType().Equals(obj.GetType());
+        bool valueMatches = Value.Equals(otherValue.Value);
 
-            bool typeMatches = GetType().Equals(obj.GetType());
-            bool valueMatches = Value.Equals(otherValue.Value);
+        return typeMatches && valueMatches;
+    }
 
-            return typeMatches && valueMatches;
-        }
+    /// <summary>
+    /// CompareTo
+    /// </summary>
+    public int CompareTo(object? other)
+    {
+        return other is null ? throw new ArgumentNullException(nameof(other)) : Value.CompareTo(((Enumeration<TValue>)other).Value);
+    }
 
-        /// <summary>
-        /// CompareTo
-        /// </summary>
-        public int CompareTo(object? other)
-        {
-            return other is null ? throw new ArgumentNullException(nameof(other)) : Value.CompareTo(((Enumeration<TValue>)other).Value);
-        }
-
-        /// <summary>
-        /// GetHashCode
-        /// </summary>
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+    /// <summary>
+    /// GetHashCode
+    /// </summary>
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
     }
 }

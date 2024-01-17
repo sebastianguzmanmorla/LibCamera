@@ -1,22 +1,21 @@
-using System.Text.Json.Serialization;
 using LibCamera.Helpers;
+using System.Text.Json.Serialization;
 
-namespace LibCamera.Settings.Enumerations
+namespace LibCamera.Settings.Enumerations;
+
+/// <summary>
+/// Format to save the metadata in
+/// </summary>
+[JsonConverter(typeof(EnumerationConverter<MetadataFormat, string>))]
+public class MetadataFormat(string Value, string? Description = null) : Enumeration<string>(Value, Description)
 {
     /// <summary>
-    /// Format to save the metadata in
+    /// Will save the metadata in a text file.
     /// </summary>
-    [JsonConverter(typeof(EnumerationConverter<MetadataFormat, string>))]
-    public class MetadataFormat(string Value, string? Description = null) : Enumeration<string>(Value, Description)
-    {
-        /// <summary>
-        /// Will save the metadata in a text file.
-        /// </summary>
-        public static MetadataFormat Txt => new("txt");
+    public static MetadataFormat Txt => new("txt");
 
-        /// <summary>
-        /// Will save the metadata in a json file.
-        /// </summary>
-        public static MetadataFormat Json => new("json");
-    }
+    /// <summary>
+    /// Will save the metadata in a json file.
+    /// </summary>
+    public static MetadataFormat Json => new("json");
 }

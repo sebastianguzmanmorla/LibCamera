@@ -1,13 +1,12 @@
-﻿namespace LibCamera.Helpers
+﻿namespace LibCamera.Helpers;
+
+/// <summary>
+/// A class to indicate that the class can be converted to string.
+/// </summary>
+public abstract class Stringable
 {
     /// <summary>
-    /// A class to indicate that the class can be converted to string.
+    /// Convert to string.
     /// </summary>
-    public abstract class Stringable
-    {
-        /// <summary>
-        /// Convert to string.
-        /// </summary>
-        public abstract override string? ToString();
-    }
+    public abstract override string? ToString();
 }

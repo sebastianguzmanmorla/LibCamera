@@ -1,27 +1,26 @@
-using System.Text.Json.Serialization;
 using LibCamera.Helpers;
+using System.Text.Json.Serialization;
 
-namespace LibCamera.Settings.Enumerations
+namespace LibCamera.Settings.Enumerations;
+
+/// <summary>
+/// H264 Profile
+/// </summary>
+[JsonConverter(typeof(EnumerationConverter<Profile, string>))]
+public class Profile(string Value, string? Description = null) : Enumeration<string>(Value, Description)
 {
     /// <summary>
-    /// H264 Profile
+    /// Baseline profile
     /// </summary>
-    [JsonConverter(typeof(EnumerationConverter<Profile, string>))]
-    public class Profile(string Value, string? Description = null) : Enumeration<string>(Value, Description)
-    {
-        /// <summary>
-        /// Baseline profile
-        /// </summary>
-        public static Profile Baseline => new("baseline");
+    public static Profile Baseline => new("baseline");
 
-        /// <summary>
-        /// Main profile
-        /// </summary>
-        public static Profile Main => new("main");
+    /// <summary>
+    /// Main profile
+    /// </summary>
+    public static Profile Main => new("main");
 
-        /// <summary>
-        /// High profile
-        /// </summary>
-        public static Profile High => new("high");
-    }
+    /// <summary>
+    /// High profile
+    /// </summary>
+    public static Profile High => new("high");
 }

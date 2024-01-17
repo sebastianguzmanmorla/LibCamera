@@ -1,8 +1,8 @@
+using LibCamera.Settings;
+using LibCamera.Settings.Codecs;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using LibCamera.Settings;
-using LibCamera.Settings.Codecs;
 
 namespace LibCamera.Helpers;
 
@@ -71,7 +71,7 @@ public class VideoSettingsConverter<TVideoSettings> : JsonConverter<TVideoSettin
 
                 PropertyInfo? property = type.GetProperty(propertyName);
 
-                if(property != null && property.CanWrite)
+                if (property != null && property.CanWrite)
                 {
                     object? value = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
 
@@ -97,7 +97,7 @@ public class VideoSettingsConverter<TVideoSettings> : JsonConverter<TVideoSettin
         PropertyInfo Codec = type.GetProperty(nameof(VideoSettings.Codec))!;
         object? CodecValue = Codec.GetValue(value);
 
-        if(CodecValue != null)
+        if (CodecValue != null)
         {
             writer.WritePropertyName(Codec.Name);
             JsonSerializer.Serialize(writer, CodecValue, options);

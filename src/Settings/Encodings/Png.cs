@@ -1,18 +1,17 @@
-using System.Text.Json.Serialization;
 using LibCamera.Helpers;
 using LibCamera.Settings.Enumerations;
+using System.Text.Json.Serialization;
 
-namespace LibCamera.Settings.Encodings
+namespace LibCamera.Settings.Encodings;
+
+/// <summary>
+/// Png Still Settings.
+/// </summary>
+[JsonConverter(typeof(StillSettingsConverter<Png>))]
+public class Png : StillSettings
 {
     /// <summary>
-    /// Png Still Settings.
+    /// Will use the PNG encoding.
     /// </summary>
-    [JsonConverter(typeof(StillSettingsConverter<Png>))]
-    public class Png : StillSettings
-    {
-        /// <summary>
-        /// Will use the PNG encoding.
-        /// </summary>
-        public override Encoding Encoding => Encoding.Png;
-    }
+    public override Encoding Encoding => Encoding.Png;
 }

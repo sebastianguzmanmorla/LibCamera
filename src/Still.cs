@@ -2,28 +2,27 @@ using LibCamera.Settings;
 using LibCamera.Settings.Types;
 using System.Diagnostics;
 
-namespace LibCamera
+namespace LibCamera;
+
+/// <summary>
+/// libcamera-still Wrapper
+/// </summary>
+public class Still : Hello
 {
     /// <summary>
-    /// libcamera-still Wrapper
+    /// Binary name
     /// </summary>
-    public class Still : Hello
-    {
-        /// <summary>
-        /// Binary name
-        /// </summary>
-        protected override string Executable => "libcamera-still";
+    protected override string Executable => "libcamera-still";
 
-        private static Still Instance { get; } = new Still();
+    private static Still Instance { get; } = new Still();
 
-        /// <summary>
-        /// Generate a ProcessStartInfo for libcamera-still
-        /// </summary>
-        public static ProcessStartInfo CaptureStartInfo(StillSettings settings) => Instance.StartInfo(settings);
+    /// <summary>
+    /// Generate a ProcessStartInfo for libcamera-still
+    /// </summary>
+    public static ProcessStartInfo CaptureStartInfo(StillSettings settings) => Instance.StartInfo(settings);
 
-        /// <summary>
-        /// List cameras
-        /// </summary>
-        public static new async Task<List<Camera>?> ListCameras() => await Instance.List();
-    }
+    /// <summary>
+    /// List cameras
+    /// </summary>
+    public static new async Task<List<Camera>?> ListCameras() => await Instance.List();
 }

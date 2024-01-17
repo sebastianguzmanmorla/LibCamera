@@ -1,63 +1,62 @@
 using System.Reflection;
 
-namespace LibCamera.Helpers
+namespace LibCamera.Helpers;
+
+/// <summary>
+/// Class to automatically generate arguments for start info.
+/// </summary>
+public abstract class Arguments
 {
     /// <summary>
-    /// Class to automatically generate arguments for start info.
+    /// Generate arguments.
     /// </summary>
-    public abstract class Arguments
+    public override string ToString()
     {
-        /// <summary>
-        /// Generate arguments.
-        /// </summary>
-        public override string ToString()
+        string args = "";
+
+        foreach (PropertyInfo property in GetType().GetProperties())
         {
-            string args = "";
+            ArgumentAttribute? argument = property.GetCustomAttribute<ArgumentAttribute>();
 
-            foreach (PropertyInfo property in GetType().GetProperties())
+            if (argument is null) continue;
+
+            var value = property.GetValue(this);
+
+            if (value is null) continue;
+
+            if (value is bool a && !a) continue;
+
+            if (value is bool b && b)
             {
-                ArgumentAttribute? argument = property.GetCustomAttribute<ArgumentAttribute>();
-
-                if (argument is null) continue;
-
-                var value = property.GetValue(this);
-
-                if (value is null) continue;
-
-                if (value is bool a && !a) continue;
-
-                if (value is bool b && b)
-                {
-                    args += $" {argument.Argument}";
-                    continue;
-                }
-
-                if (value is uint c)
-                {
-                    args += $" {argument.Argument} {c}";
-                    continue;
-                }
-
-                if (value is decimal d)
-                {
-                    args += $" {argument.Argument} {d}";
-                    continue;
-                }
-
-                if (value is string e)
-                {
-                    args += $" {argument.Argument} {e}";
-                    continue;
-                }
-
-                if (value is Stringable f)
-                {
-                    args += $" {argument.Argument} {f}";
-                    continue;
-                }
+                args += $" {argument.Argument}";
+                continue;
             }
 
-            return args;
+            if (value is uint c)
+            {
+                args += $" {argument.Argument} {c}";
+                continue;
+            }
+
+            if (value is decimal d)
+            {
+                args += $" {argument.Argument} {d}";
+                continue;
+            }
+
+            if (value is string e)
+            {
+                args += $" {argument.Argument} {e}";
+                continue;
+            }
+
+            if (value is Stringable f)
+            {
+                args += $" {argument.Argument} {f}";
+                continue;
+            }
         }
+
+        return args;
     }
 }

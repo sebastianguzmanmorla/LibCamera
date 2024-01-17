@@ -1,8 +1,8 @@
+using LibCamera.Settings;
+using LibCamera.Settings.Encodings;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using LibCamera.Settings;
-using LibCamera.Settings.Encodings;
 
 namespace LibCamera.Helpers;
 
@@ -81,7 +81,7 @@ public class StillSettingsConverter<TStillSettings> : JsonConverter<TStillSettin
 
                 PropertyInfo? property = type.GetProperty(propertyName);
 
-                if(property != null && property.CanWrite)
+                if (property != null && property.CanWrite)
                 {
                     object? value = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
 
@@ -107,7 +107,7 @@ public class StillSettingsConverter<TStillSettings> : JsonConverter<TStillSettin
         PropertyInfo Encoding = type.GetProperty(nameof(StillSettings.Encoding))!;
         object? EncodingValue = Encoding.GetValue(value);
 
-        if(EncodingValue != null)
+        if (EncodingValue != null)
         {
             writer.WritePropertyName(Encoding.Name);
             JsonSerializer.Serialize(writer, EncodingValue, options);
